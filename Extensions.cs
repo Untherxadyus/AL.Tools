@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace AL.Tools
@@ -191,6 +192,26 @@ namespace AL.Tools
         public static bool IsNotIPAddress(this String str)
         {
             return !IsIPAddress(str);
+        }
+
+        /// <summary>
+        /// Extension to validate that the content is alphanumeric
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static bool IsAlphanumeric(this String str)
+        {
+            return new Regex("^[a-zA-Z0-9]*$").IsMatch(str);
+        }
+
+        /// <summary>
+        /// Extension to validate that the content is alphanumeric
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static bool IsNotAlphanumeric(this String str)
+        {
+            return !IsAlphanumeric(str);
         }
     }
 }
