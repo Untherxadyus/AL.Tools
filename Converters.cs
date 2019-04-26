@@ -36,7 +36,7 @@ namespace AL.Tools
             using (StringReader stringReader = new StringReader(xml))
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(T));
-                return (T) serializer.Deserialize(stringReader);
+                return (T)serializer.Deserialize(stringReader);
             }
         }
 
@@ -92,7 +92,7 @@ namespace AL.Tools
 
         public static Image ToImage(this byte[] img)
         {
-            byte[] imageData = (byte[]) img;
+            byte[] imageData = (byte[])img;
 
             Image newImage;
 
@@ -141,7 +141,7 @@ namespace AL.Tools
             if (Size == 0) { return "0.0 bytes"; }
 
             //Get the unit based on the logarithm of the number
-            int Magnitude = (int) Math.Log(Size, Base);
+            int Magnitude = (int)Math.Log(Size, Base);
 
             //Get the size in the unit
             double adjustedSize = (Size / Math.Pow(Base, Magnitude));
@@ -173,6 +173,15 @@ namespace AL.Tools
         {
             return IPAddress.Parse(str);
         }
+
+        public static string ToOracleParameterString(this DateTime dt)
+        {
+            if (dt.IsMinDate())
+                return "NULL";
+            else
+                return $"'{dt.ToString("yyyy-MM-dd HH:mm:ss")}'";
+        }
+
     }
 
     public class Utf8StringWriter : StringWriter
