@@ -182,6 +182,14 @@ namespace AL.Tools
                 return $"'{dt.ToString("yyyy-MM-dd HH:mm:ss")}'";
         }
 
+        public static string ToStringNullSafe(this DateTime dt, string Pattern = "yyyy-MM-dd HH:mm:ss")
+        {
+            if (dt.IsMinDate())
+                return string.Empty;
+            else
+                return $"{dt.ToString(Pattern)}";
+        }
+
     }
 
     public class Utf8StringWriter : StringWriter
