@@ -35,10 +35,12 @@ namespace AL.Tools
         public static String ConnectionString(String ConnectionName)
         {
             //Check if is Web Application or Desktop Application
-            if (HttpRuntime.AppDomainAppId.IsNull())
-                return ConfigurationManager.ConnectionStrings[ConnectionName].ConnectionString;
+            var cs = HttpRuntime.AppDomainAppId.IsNull() ? ConfigurationManager.ConnectionStrings[ConnectionName] : WebConfigurationManager.ConnectionStrings[ConnectionName];
+
+            if (cs.IsNull())
+                return null;
             else
-                return WebConfigurationManager.ConnectionStrings[ConnectionName].ConnectionString;
+                return cs.ConnectionString;
         }
 
         /// <summary>
