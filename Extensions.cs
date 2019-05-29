@@ -213,5 +213,33 @@ namespace AL.Tools
         {
             return !IsAlphanumeric(str);
         }
+
+        /// <summary>
+        /// Extension to obtain the left part of a string.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="Characters"></param>
+        /// <returns></returns>
+        public static string Left(this string str, int Characters)
+        {
+            if (str.IsEmpty() || Characters <= 0 || Characters >= str.Length)
+                return str;
+
+            return str.Substring(0, Characters);
+        }
+
+        /// <summary>
+        /// Extension to obtain the right part of a string.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="Characters"></param>
+        /// <returns></returns>
+        public static string Right(this string str, int Characters)
+        {
+            if (str.IsEmpty() || Characters <= 0 || Characters >= str.Length)
+                return str;
+
+            return str.Substring(str.Length - Characters, Characters);
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
@@ -49,7 +50,7 @@ namespace AL.Tools
             return textWriter.ToString();
         }
 
-        public static Boolean ToBoolean(this String str)
+        public static bool ToBoolean(this string str)
         {
             switch (str.ToLower())
             {
@@ -70,22 +71,22 @@ namespace AL.Tools
             }
         }
 
-        public static Boolean ToBoolean(this Object obj)
+        public static bool ToBoolean(this object obj)
         {
             return Convert.ToBoolean(obj);
         }
 
-        public static DateTime ToDateTime(this Object obj)
+        public static DateTime ToDateTime(this object obj)
         {
             return Convert.ToDateTime(obj);
         }
 
-        public static int ToInt(this Object obj)
+        public static int ToInt(this object obj)
         {
             return Convert.ToInt32(obj);
         }
 
-        public static float ToSingle(this Double number)
+        public static float ToSingle(this double number)
         {
             return Convert.ToSingle(number);
         }
@@ -132,7 +133,7 @@ namespace AL.Tools
             return table;
         }
 
-        public static String ToReadableFileSize(this Int64 Size)
+        public static string ToReadableFileSize(this long Size)
         {
             const long Base = 1024;
             //In case negative value is provided
@@ -169,7 +170,7 @@ namespace AL.Tools
             return _jsserializer.Deserialize<T>(jsonObj as string);
         }
 
-        public static IPAddress ToIPAddress(this String str)
+        public static IPAddress ToIPAddress(this string str)
         {
             return IPAddress.Parse(str);
         }
@@ -188,6 +189,46 @@ namespace AL.Tools
                 return string.Empty;
             else
                 return $"{dt.ToString(Pattern)}";
+        }
+
+        public static byte[] EncodeString(this string str)
+        {
+            return Encoding.ASCII.GetBytes(str);
+        }
+
+        public static string DecodeString(this byte[] byteArray)
+        {
+            return Encoding.ASCII.GetString(byteArray);
+        }
+
+        public static string DecodeString(this byte[] byteArray, int Index, int Count)
+        {
+            return Encoding.ASCII.GetString(byteArray, Index, Count);
+        }
+
+        public static byte[] EncodeObject(this object obj)
+        {
+            if (obj.IsNull())
+                return null;
+
+            var bf = new BinaryFormatter();
+            var ms = new MemoryStream();
+            bf.Serialize(ms, obj);
+
+            return ms.ToArray();
+        }
+
+        public static object DecodeObject(this byte[] ba)
+        {
+            if (ba.IsNull() || ba.Length == 0)
+                return null;
+
+            var ms = new MemoryStream();
+            var bf = new BinaryFormatter();
+            ms.Write(ba, 0, ba.Length);
+            ms.Seek(0, SeekOrigin.Begin);
+
+            return (bf.Deserialize(ms) as object);
         }
 
     }
