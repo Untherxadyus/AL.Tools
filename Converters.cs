@@ -236,6 +236,32 @@ namespace AL.Tools
             return (bf.Deserialize(ms) as object);
         }
 
+        public static string ToBase(this int num, int Base)
+        {
+            var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+            if (num < 0)
+                throw new Exception("Negative numbers not supported.");
+
+            // check if we can convert to another base
+            if (Base < 2 || Base > chars.Length)
+                throw new Exception("Only Bases from 2 to 36 are supported.");
+
+            string newNumber = "";
+            
+            while (num >= Base)
+            {
+                var remainder = num % Base;
+                newNumber += chars[remainder];
+                num = num / Base;
+            }
+            // the last number to convert
+            newNumber += chars[num];
+
+            char[] array = newNumber.ToCharArray();
+            Array.Reverse(array);
+            return new string(array);
+        }
     }
 
     public class Utf8StringWriter : StringWriter
