@@ -52,9 +52,9 @@ namespace AL.Tools
         {
             //Check if is Web Application or Desktop Application
             if (HttpRuntime.AppDomainAppId.IsNull())
-                return ConfigurationManager.AppSettings[Key].ToString();
+                return ConfigurationManager.AppSettings[Key]?.ToString();
             else
-                return WebConfigurationManager.AppSettings[Key].ToString();
+                return WebConfigurationManager.AppSettings[Key]?.ToString();
         }
 
         /// <summary>
