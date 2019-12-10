@@ -242,5 +242,48 @@ namespace AL.Tools
 
             return str.Substring(str.Length - Characters, Characters);
         }
+
+        /// <summary>
+        /// Extension to determine if an IP Address is whithin a provided range
+        /// </summary>
+        /// <param name="Address"></param>
+        /// <param name="LowerBound"></param>
+        /// <param name="UpperBound"></param>
+        /// <returns></returns>
+        public static bool IsInRange(this IPAddress Address, IPAddress LowerBound, IPAddress UpperBound)
+        {
+            //Compare Address Family
+            if (Address.AddressFamily != LowerBound.AddressFamily)
+                return false;
+
+            //Get byte arrays for every address
+            var lowerBytes = LowerBound.GetAddressBytes();
+            var upperBytes = UpperBound.GetAddressBytes();
+            var addressBytes = Address.GetAddressBytes();
+            bool lowerBoundary = true;
+            bool upperBoundary = true;
+
+            //Check if bounds are valid
+            for (int x = 0; x < lowerBytes.Length; x++)
+            {
+                if (lowerBytes[x] > upperBytes[x])
+                    throw new ArgumentException("Provided bounds are not valid.");
+            }
+
+            //Iterate over every segment of the address
+            for (int x = 0; x < lowerBytes.Length && (lowerBoundary || upperBoundary); x++)
+            {
+                //If address is not within range for the segment, return false
+                if ((lowerBoundary && addressBytes[x] < lowerBytes[x]) || (upperBoundary && addressBytes[x] > upperBytes[x]))
+                    return false;
+
+                //If a segment is different, toggle the flag to false, if both, then there is 
+                //no need for further evaluation, since it's within range
+                lowerBoundary &= (addressBytes[x] == lowerBytes[x]);
+                upperBoundary &= (addressBytes[x] == upperBytes[x]);
+            }
+
+            return true;
+        }
     }
 }
