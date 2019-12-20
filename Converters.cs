@@ -86,6 +86,11 @@ namespace AL.Tools
             return Convert.ToInt32(obj);
         }
 
+        public static int ToInt(this Decimal obj)
+        {
+            return Convert.ToInt32(obj);
+        }
+
         public static long ToLong(this object obj)
         {
             return Convert.ToInt64(obj);
