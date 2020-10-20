@@ -267,6 +267,19 @@ namespace AL.Tools
             Array.Reverse(array);
             return new string(array);
         }
+
+        public static string ToCSV(this List<int> eList)
+        {
+            var str = string.Empty;
+
+            foreach (var e in eList)
+                str += $"{e}, ";
+
+            str = str.TrimEnd();
+            str = str.TrimEnd(',');
+
+            return str;
+        }
     }
 
     public class Utf8StringWriter : StringWriter
