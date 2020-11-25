@@ -52,19 +52,19 @@ namespace AL.Tools
 
         public static bool ToBoolean(this string str)
         {
+            if (str.IsNull())
+                return false;
+
             switch (str.ToLower())
             {
                 case "true":
-                    return true;
                 case "t":
-                    return true;
                 case "1":
                     return true;
                 case "0":
-                    return false;
                 case "false":
-                    return false;
                 case "f":
+                case "":
                     return false;
                 default:
                     throw new InvalidCastException("You can't cast a weird value to a bool!");
