@@ -285,5 +285,17 @@ namespace AL.Tools
 
             return true;
         }
+
+        public static string GetNumbers(this string str)
+        {
+            //If no value is provided
+            if (str.IsEmpty())
+                return string.Empty;
+
+            //Get the numbers
+            var numbers = str.Where(c => char.IsDigit(c)).ToArray();
+
+            return new string(numbers) ?? string.Empty;
+        }
     }
 }
